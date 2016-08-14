@@ -61,6 +61,44 @@ function getMatchBetweenDates($dateBefore, $dateAfter){
 
 }
 
+function getMatchWithTieBreak($tiebreak){
+	$db = getConnection();
+	if($tiebreak == true)
+		$query = "SELECT * from `Match` WHERE idMatch IN (SELECT idMatch FROM `Set` WHERE tiebreakLoserPoints IS NOT NULL)";
+	else
+		$query = "SELECT * from `Match` WHERE idMatch NOT IN (SELECT idMatch FROM `Set` WHERE tiebreakLoserPoints IS NOT NULL)";
+	$stmt = $db->query($query);
+   return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+}
+
+function getMatchWithSuperTieBreak($supertiebreak){
+	$db = getConnection();
+	if($supertiebreak == true)
+		$query = "SELECT * from `Match` WHERE idMatch IN (SELECT idMatch FROM `Set` WHERE superTieBreak IS TRUE)";
+	else
+		$query = "SELECT * from `Match` WHERE idMatch NOT IN (SELECT idMatch FROM `Set` WHERE superTieBreak IS TRUE)";
+	$stmt = $db->query($query);
+   return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+}
+
+
+function getMatchIndoor(){
+	$db = getConnection();
+	$stmt = $db->query("SELECT * FROM `Match` WHERE indoorMatch IS TRUE");
+   return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+}
+
+function getMatchOutdoor(){
+	$db = getConnection();
+	$stmt = $db->query("SELECT * FROM `Match` WHERE indoorMatch IS FALSE");
+   return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+}
+
+
 
 
 

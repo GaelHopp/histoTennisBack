@@ -57,18 +57,11 @@ $app->get("/players/firstName/:firstName", function ($firstName) use ($app){
 //Match
 
 $app->get("/matches", function () use ($app){
+    
     $matches = getAllMatches();
 
-
-    foreach ($matches as $idMatchArray => $arrayDetails) {
-    	
-    	$idMatch = $arrayDetails['idMatch'];
-    	$sets = getAllSetsByIdMatch($idMatch);
-    	$matches[$idMatchArray]['sets'] = $sets;
-  	  }
-    
-    	
-	
+    $matches = constructMatchesWithSets($matches);
+   
     $app->response->headers->set('Content-Type', 'application/json');
     $app->response->setBody(json_encode($matches));
 });
@@ -108,13 +101,91 @@ $app->get("/matches/between/:dateBefore/:dateAfter", function ($dateBefore, $dat
     $app->response->setBody(json_encode(getMatchBetweenDates($dateBefore, $dateAfter)));
 });
 
+$app->get("/matches/with/tiebreak", function () use ($app){
+	
+	$matches = getMatchWithTieBreak(true);    
+	$matches = constructMatchesWithSets($matches);
+
+    $app->response->headers->set('Content-Type', 'application/json');
+    $app->response->setBody(json_encode($matches));
+});
+
+$app->get("/matches/without/tiebreak", function () use ($app){
+	
+	$matches = getMatchWithTieBreak(false);    
+	$matches = constructMatchesWithSets($matches);
+
+    $app->response->headers->set('Content-Type', 'application/json');
+    $app->response->setBody(json_encode($matches));
+});
+
+$app->get("/matches/with/supertiebreak", function () use ($app){
+	
+	$matches = getMatchWithSuperTieBreak(true);    
+	$matches = constructMatchesWithSets($matches);
+
+    $app->response->headers->set('Content-Type', 'application/json');
+    $app->response->setBody(json_encode($matches));
+});
+
+$app->get("/matches/without/supertiebreak", function () use ($app){
+	
+	$matches = getMatchWithSuperTieBreak(false);    
+	$matches = constructMatchesWithSets($matches);
+
+    $app->response->headers->set('Content-Type', 'application/json');
+    $app->response->setBody(json_encode($matches));
+});
 
 
+$app->get("/matches/place/indoor", function () use ($app){
+	
+	$matches = getMatchIndoor();    
+	$matches = constructMatchesWithSets($matches);
 
+    $app->response->headers->set('Content-Type', 'application/json');
+    $app->response->setBody(json_encode($matches));
+});
+
+$app->get("/matches/place/outdoor", function () use ($app){
+	
+	$matches = getMatchOutdoor();    
+	$matches = constructMatchesWithSets($matches);
+
+    $app->response->headers->set('Content-Type', 'application/json');
+    $app->response->setBody(json_encode($matches));
+});
 
 $app->run();
 
 
+
+/*
+
+Treatment functions
+
+
+*/
+
+
+
+function constructMatchesWithSets($matches){
+
+foreach ($matches as $idMatchArray => $arrayDetails) {
+    	
+	$idMatch = $arrayDetails['idMatch']; 
+	$matches[$idMatchArray]['sets'] = getSetsForMatch($idMatch);
+}
+
+return $matches;
+
+}
+
+
+
+function getSetsForMatch($idMatch){
+	return getAllSetsByIdMatch($idMatch);
+}
 
 
 
