@@ -10,5 +10,12 @@ function getAllSets(){
 
 }
 
+function getAllSetsByIdMatch($idMatch){
+	$db = getConnection();
+	$stmt = $db->query("SELECT * FROM `Set` WHERE idMatch = $idMatch");
+   return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+}
+
 
 ?>
