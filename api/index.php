@@ -1,5 +1,7 @@
 <?php
-include ("./Base.php");
+include ("./Player.php");
+include ("./Match.php");
+include ("./Set.php");
 require '../vendor/autoload.php';
 
 $app = new \Slim\Slim();
@@ -15,10 +17,9 @@ $app->get("/hello", function () {
 });
 
 $app->get("/json", function () use ($app){
-	error_log("flag");
     $app->response->headers->set('Content-Type', 'application/json');
 
-    $app->response->setBody(json_encode(getAllMatches()));
+    $app->response->setBody(json_encode(getAllPlayers()));
 });
 
 
@@ -35,27 +36,6 @@ Routes for histoTennis
 $app->run();
 
 
-
-function getAllPlayers(){
-	$db = getConnection();
-	$stmt = $db->query("SELECT * FROM Player");
-   return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-}
-
-function getAllMatches(){
-	$db = getConnection();
-	$stmt = $db->query("SELECT * FROM `Match`");
-   return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-}
-
-function getAllSets(){
-	$db = getConnection();
-	$stmt = $db->query("SELECT * FROM `Set`");
-   return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-}
 
 
 
