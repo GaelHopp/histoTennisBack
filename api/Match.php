@@ -5,7 +5,7 @@ include_once("./Base.php");
 
 function getAllMatches(){
 	$db = getConnection();
-	$stmt = $db->query("SELECT * FROM `Match`");
+	$stmt = $db->query("SELECT * FROM `Match` ORDER BY dateMatch DESC");
    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 

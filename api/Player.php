@@ -13,7 +13,7 @@ function getAllPlayers(){
 function getPlayerById($id){
 	$db = getConnection();
 	$stmt = $db->query("SELECT * FROM `Player` WHERE idPlayer = $id");
-   return $stmt->fetchAll(PDO::FETCH_ASSOC);
+   return $stmt->fetch(PDO::FETCH_ASSOC);
 
 }
 

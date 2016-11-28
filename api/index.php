@@ -174,7 +174,12 @@ function constructMatchesWithSets($matches){
 foreach ($matches as $idMatchArray => $arrayDetails) {
     	
 	$idMatch = $arrayDetails['idMatch']; 
+    $idWinner = $arrayDetails['idWinner']; 
+    $idLoser = $arrayDetails['idLoser']; 
 	$matches[$idMatchArray]['sets'] = getSetsForMatch($idMatch);
+    $matches[$idMatchArray]['winner'] = getPlayerById($idWinner);
+    $matches[$idMatchArray]['loser'] = getPlayerById($idLoser);
+
 }
 
 return $matches;
@@ -186,6 +191,8 @@ return $matches;
 function getSetsForMatch($idMatch){
 	return getAllSetsByIdMatch($idMatch);
 }
+
+
 
 
 
