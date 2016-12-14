@@ -99,6 +99,22 @@ function getMatchOutdoor(){
 }
 
 
+function saveMatch($match){
+	$db = getConnection();
+	$idWinner = $match->idWinner;
+	$idLoser = $match->idLoser;
+	$dateMatch = $match->dateMatch;
+	$indoorMatch = $match->indoorMatch;
+	$stmt = $db->query("INSERT INTO `Match`(idWinner, idLoser, dateMatch, indoorMatch) VALUES ($idWinner, $idLoser, '$dateMatch', $indoorMatch)");
+	$lastId = $db->lastInsertId();
+
+	foreach($match->sets as $set){
+		$set->idMatch = $lastId;
+		saveSet($set);
+	}
+}
+
+
 
 
 

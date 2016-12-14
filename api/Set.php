@@ -17,6 +17,24 @@ function getAllSetsByIdMatch($idMatch){
 
 }
 
+function saveSet($set){
+	$db = getConnection();
+	$winnerGames = $set->winnerGames;
+	$loserGames = $set->loserGames;
+	$superTieBreak = $set->superTieBreak;
+	$tiebreakLoserPoints = $set->tiebreakLoserPoints;
+	$idMatch = $set->idMatch;
+	$query = "";
+	if($tiebreakLoserPoints != null && $tiebreakLoserPoints != ""){
+		$query = "INSERT INTO `Set`(winnerGames, loserGames, superTieBreak, tiebreakLoserPoints, idMatch) VALUES ($winnerGames, $loserGames, $superTieBreak, $tiebreakLoserPoints, $idMatch)";
+	}else{
+		$query = "INSERT INTO `Set`(winnerGames, loserGames, superTieBreak, tiebreakLoserPoints, idMatch) VALUES ($winnerGames, $loserGames, $superTieBreak, NULL, $idMatch)";
+	}
+	
+	
+	$stmt = $db->query($query);
+}
+
 
 
 

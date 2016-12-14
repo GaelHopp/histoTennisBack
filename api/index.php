@@ -5,7 +5,10 @@ include ("./Set.php");
 require '../vendor/autoload.php';
 
 $app = new \Slim\Slim();
-
+$app->response->headers->set('Access-Control-Allow-Headers', 'Content-Type');
+$app->response->headers->set('Content-Type', 'application/json');
+$app->response->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+$app->response->headers->set('Access-Control-Allow-Origin', '*');
 
 
 $app->get('/', function () {
@@ -154,6 +157,13 @@ $app->get("/matches/place/outdoor", function () use ($app){
 
     $app->response->headers->set('Content-Type', 'application/json');
     $app->response->setBody(json_encode($matches));
+});
+
+$app->post("/match/new", function () use ($app){
+
+    $match = $app->request->getBody();
+    saveMatch(json_decode($match));
+    $app->response->setBody(json_encode($match));
 });
 
 $app->run();
