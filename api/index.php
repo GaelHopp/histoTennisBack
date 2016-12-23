@@ -159,10 +159,32 @@ $app->get("/matches/place/outdoor", function () use ($app){
     $app->response->setBody(json_encode($matches));
 });
 
+$app->get("/matchesLive", function () use ($app){
+    
+    $matches = getAllMatchesLive();    
+
+    $app->response->headers->set('Content-Type', 'application/json');
+    $app->response->setBody(json_encode($matches));
+});
+
 $app->post("/match/new", function () use ($app){
 
     $match = $app->request->getBody();
     saveMatch(json_decode($match));
+    $app->response->setBody(json_encode($match));
+});
+
+$app->post("/matchLive/new", function () use ($app){
+
+    $match = $app->request->getBody();
+    createMatchLive(json_decode($match));
+    $app->response->setBody(json_encode($match));
+});
+
+$app->post("/matchLive/update", function () use ($app){
+
+    $match = $app->request->getBody();
+    updateMatchLive(json_decode($match));
     $app->response->setBody(json_encode($match));
 });
 

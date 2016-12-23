@@ -114,6 +114,57 @@ function saveMatch($match){
 	}
 }
 
+function createMatchLive($match){
+	$db = getConnection();
+	$player1 = $match->player1;
+	$player2 = $match->player2;
+	$set1Player1 = $match->set1Player1;
+	$set1Player2 = $match->set1Player2;
+	$set2Player1 = $match->set2Player1;
+	$set2Player2 = $match->set2Player2;
+	$set3Player1 = $match->set3Player1;
+	$set3Player2 = $match->set3Player2;
+	$player1Serving = 1;
+	if($match->player1Serving == false){
+		$player1Serving = 0;
+	}
+	$stmt = $db->query("INSERT INTO `MatchLive`(player1, player2, set1Player1, set1Player2, set2Player1, 
+												set2Player2, set3Player1, set3Player2, player1Serving) 
+												VALUES ('$player1', '$player2', $set1Player1, $set1Player2, $set2Player1, 
+												$set2Player2, $set3Player1, $set3Player2, $player1Serving)");
+
+	
+}
+
+function updateMatchLive($match){
+	$db = getConnection();
+	$idMatchLive = $match->idMatchLive;
+	$player1 = $match->player1;
+	$player2 = $match->player2;
+	$set1Player1 = $match->set1Player1;
+	$set1Player2 = $match->set1Player2;
+	$set2Player1 = $match->set2Player1;
+	$set2Player2 = $match->set2Player2;
+	$set3Player1 = $match->set3Player1;
+	$set3Player2 = $match->set3Player2;
+	$isPlayer1Serving = $$match->isPlayer1Serving;
+	$stmt = $db->query("UPDATE `MatchLive` SET player1 = '$player1', player2 = '$player2', set1Player1 = $set1Player1, 
+												set1Player2 = $set1Player2, set2Player1 = $set2Player1, set2Player2 = $set2Player2, 
+												set3Player1 = $set3Player1, set3Player2 = $set3Player2, isPlayer1Serving = $isPlayer1Serving 
+												WHERE idMatchLive = $idMatchLive"); 
+											
+
+	
+}
+
+
+function getAllMatchesLive(){
+	$db = getConnection();
+	$stmt = $db->query("SELECT * FROM `MatchLive` ORDER BY idMatchLive ASC");
+   return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 
 
 
