@@ -5,10 +5,7 @@ include ("./Set.php");
 require '../vendor/autoload.php';
 
 $app = new \Slim\Slim();
-$app->response->headers->set('Access-Control-Allow-Headers', 'Content-Type');
-$app->response->headers->set('Content-Type', 'application/json');
-$app->response->headers->set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-$app->response->headers->set('Access-Control-Allow-Origin', '*');
+
 
 
 $app->get('/', function () {
@@ -187,6 +184,13 @@ $app->post("/matchLive/update", function () use ($app){
     updateMatchLive(json_decode($match));
     $app->response->setBody(json_encode($match));
 });
+
+$app->post("/delete/matchLive/:id", function ($id) use ($app){
+
+    deleteMatchLive($id);
+    $app->response->setBody(json_encode($id));
+});
+
 
 $app->run();
 
